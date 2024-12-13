@@ -106,7 +106,40 @@ function isPowerOfTwo(n: number): boolean {
 function swapPairs ( head: ListNode | null): ListNode | null {
     if (head === null || head.next === null) return head;
     const next = head.next;
-    head.next = swapPairs(next.next);
+    head.next = swapPairs( next.next );
     next.next = head;
     return next;
+}
+
+function reorderList( head: ListNode | null ): void {
+
+}
+
+function isPalindrome ( head: ListNode | null ) : boolean {
+    let list: number[] = [];
+    while (head) {
+        list.push(head?.val);
+        head = head.next;
+    }
+    return list.join('') === list.reverse().join('');
+}
+
+function fib (n: number) : number {
+    if (n === 0) return 0;
+    if (n === 1) return 1 + fib(0);
+    return fib( n - 1 ) + fib (n - 2);
+}
+
+function isPowerOfThree(n: number, pow: number = 1): boolean {
+    if (n === 1) return true;
+    if (3 ** pow > n) return false;
+    if (3 ** pow === n) return true; 
+    return isPowerOfThree(n, pow + 1);
+}
+
+function isPowerOfFour(n : number, pow: number = 1): boolean {
+    if (n === 1) return true;
+    if (4 ** pow === n) return true;
+    if (4 ** pow > n) return false;
+    return isPowerOfFour(n, pow + 1); 
 }
