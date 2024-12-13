@@ -111,17 +111,123 @@ function swapPairs ( head: ListNode | null): ListNode | null {
     return next;
 }
 
-function reorderList( head: ListNode | null ): void {
+function reorderListV1( head: ListNode | null ): void {
+    let slow = head;
+    let fast = head?.next;
+    // Determine split the node in two
+    while (fast && fast.next) {
+        slow = slow === null ? null : slow?.next;
+        fast = fast === null ? null : fast?.next?.next;
+    }
 
+    let secondNode : ListNode | null = slow === null ? null : slow?.next; // Setting start of the Node
+    let prev : ListNode | null = null; // Setting initial value for prev Node to reverse the ListNode
+    if (slow !== null) {
+        slow.next = null;
+    }
+
+    // Reverse the second Node
+    while (!!secondNode) {
+        let temp = secondNode.next;
+        secondNode.next = prev;
+        prev = secondNode;
+        secondNode = temp;
+    }
+
+    // Merge two Nodes
+    let firstNode = head;
+    secondNode = prev;
+
+    while (!!secondNode) {
+        let [temp1, temp2] = [firstNode?.next, secondNode?.next];
+        if (firstNode !== null) {
+            firstNode.next = secondNode;
+        }
+        if (secondNode !== null) {
+            secondNode.next = (!!temp1) ? temp1 : null;
+        }
+
+        firstNode = (!!temp1) ? temp1 : null;
+        secondNode = (!!temp2) ? temp2 : null
+    }
 }
 
-function isPalindrome ( head: ListNode | null ) : boolean {
+function reorderList(head: ListNode | null): void {
+    let slow = head;
+    if (head === null) return;
+    let fast = head.next;
+
+    while (fast && fast.next) {
+        slow = slow?.next ?? null;
+        fast = fast.next.next;
+    }
+
+    let second = slow?.next ?? null; // Start of the second node
+    if (!!slow) slow.next = null; // Split the list into two
+    let reverseTmp: ListNode | null = null; // Reverse the second node
+
+    while (second) {
+        const temp = second.next;
+        second.next = reverseTmp;
+        reverseTmp = second;
+        second = temp;
+    }
+
+    second = reverseTmp; // Start of the reversed node
+    let cur = head;      // Start of the first node
+    while (second) {
+        const temp1 = cur.next;
+        const temp2 = second.next;
+        cur.next = second;
+        second.next = temp1;
+        if (!!temp1) cur = temp1;
+        second = temp2;
+    }
+};
+
+function isPalindromeV1 ( head: ListNode | null ) : boolean {
     let list: number[] = [];
     while (head) {
         list.push(head?.val);
         head = head.next;
     }
     return list.join('') === list.reverse().join('');
+}
+
+function isPalindrome ( head: ListNode | null ) : boolean {
+    let slow = head;
+    if (head === null) return true;
+    let fast = head?.next;
+
+    while (fast && fast.next) {
+        slow = slow?.next ?? null;
+        fast = fast?.next?.next;
+    }
+
+    let second = slow?.next ?? null;
+    if (!!slow) slow.next = null;
+    let reverseTmp : ListNode | null = null;
+
+    while (second) {
+        const temp = second.next;
+        second.next = reverseTmp;
+        reverseTmp = second;
+        second = temp;
+    }
+
+    second = reverseTmp;
+    let cur : ListNode | null = head;
+
+    while (second) {
+        const temp1 = cur?.val;
+        const temp2 = second?.val;
+        if (temp1 !== temp2) return false;
+
+        cur = cur?.next ?? null;
+        second = second?.next ?? null;
+    }
+
+    return true;
 }
 
 function fib (n: number) : number {
