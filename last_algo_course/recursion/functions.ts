@@ -249,3 +249,8 @@ function isPowerOfFour(n : number, pow: number = 1): boolean {
     if (4 ** pow > n) return false;
     return isPowerOfFour(n, pow + 1); 
 }
+
+function lastRemaining(n: number): number {
+    if (n === 1) return 1; 
+    return 2 * (Math.floor(n / 2) + 1 - lastRemaining(Math.floor(n / 2)));
+}
