@@ -1,15 +1,17 @@
 class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
-        i, j = 0, len(t)
-        res = ""
-        while (i < j):
-            if (t[i] in s): res = res + t[i]
-            i += 1
-        print('res:', res)
-        return s == res
+        if (len(s) == 0): return True;
+        if (len(s) == len(t) or len(t) == 0): return False;
+        j = 0
+        for i in range(len(t)):
+            if (j == len(s)): return True;
+            letter_to_found = s[j];
+            if (t[i] == letter_to_found): j += 1
+        
+        return j == len(s);
 
 if __name__ == "__main__":
     sol = Solution();
-    s = "abc";
-    t = "ahbgdc";
+    s = "b";
+    t = "abc";
     res = print(sol.isSubsequence(s, t))
