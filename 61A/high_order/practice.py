@@ -97,6 +97,6 @@ def make_repeater(f, n):
     def repeater(x):
         k = 0;
         while k < n:
-            x, k = f(x), k+ 1
+            x, k = f(x), k + 1
         return x;
     return repeater;
